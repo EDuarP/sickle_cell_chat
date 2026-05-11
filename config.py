@@ -1,5 +1,6 @@
 """Configuración centralizada. Lee de .env y expone constantes."""
 import os
+from datetime import datetime
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -28,8 +29,11 @@ QUERIES = [
     '"bone marrow transplant" OR "stem cell transplant")',
 ]
 PMC_RETMAX = 30           # cuántos artículos por query
-PMC_MINDATE = "2016"
-PMC_MAXDATE = "2026"
+# Ventana móvil: últimos N años hasta hoy.
+PMC_YEARS_BACK = int(os.environ.get("PMC_YEARS_BACK", "5"))
+_current_year = datetime.now().year
+PMC_MAXDATE = str(_current_year)
+PMC_MINDATE = str(_current_year - PMC_YEARS_BACK)
 
 CHUNK_SIZE = 1000
 CHUNK_OVERLAP = 150

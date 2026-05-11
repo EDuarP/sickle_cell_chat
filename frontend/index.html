@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sickle Cell RAG</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+        <rect x="10" y="3" width="4" height="18" rx="1" fill="currentColor"/>
+        <rect x="3" y="10" width="18" height="4" rx="1" fill="currentColor"/>
+      </svg>
+      <span class="title">Sickle Cell RAG</span>
+      <span class="divider" aria-hidden="true"></span>
+      <span id="source-badge" class="source">PMC</span>
+    </div>
+    <div class="meta">
+      <span id="model-badge" class="badge">…</span>
+    </div>
+  </header>
+
+  <main id="app" class="app">
+    <!-- ============ Init screen ============ -->
+    <section id="init-screen" class="init-screen" hidden>
+      <div class="init-card">
+        <span class="eyebrow">Preparación</span>
+        <h1>Inicializar índice clínico</h1>
+        <p class="muted">
+          Se descargarán artículos indexados en PubMed Central, el modelo
+          de embeddings (~90&nbsp;MB en la primera ejecución) y se construirá
+          el índice vectorial. El proceso tarda aproximadamente 3–5 minutos.
+        </p>
+        <button id="init-btn" class="primary">Inicializar</button>
+        <ul id="init-log" class="init-log" hidden></ul>
+      </div>
+    </section>
+
+    <!-- ============ Chat screen ============ -->
+    <section id="chat-screen" class="chat-screen" data-empty="true" hidden>
+      <div id="chat" class="chat">
+        <div class="empty" id="empty">
+          <span class="eyebrow">Asistente clínico</span>
+          <h1>Anemia falciforme</h1>
+          <p class="muted">
+            Respuestas basadas en literatura biomédica indexada de PubMed Central
+            (<span id="welcome-range">últimos años</span>).
+          </p>
+          <div class="suggestions">
+            <button class="suggestion">¿Cuál es el mecanismo de la vaso-oclusión en HbSS?</button>
+            <button class="suggestion">¿Cuándo está indicada la hidroxiurea?</button>
+            <button class="suggestion">Resumen de terapia génica en anemia falciforme</button>
+          </div>
+        </div>
+      </div>
+
+      <form id="composer" class="composer">
+        <div class="composer-inner">
+          <textarea
+            id="input"
+            rows="1"
+            placeholder="Pregunta clínica…"
+            autocomplete="off"
+          ></textarea>
+          <button id="send" type="submit" aria-label="Enviar">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="13 6 19 12 13 18"></polyline>
+            </svg>
+          </button>
+        </div>
+        <p class="disclaimer">
+          Información con fines educativos. No reemplaza el criterio clínico profesional.
+        </p>
+      </form>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

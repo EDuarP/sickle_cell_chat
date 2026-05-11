@@ -17,6 +17,7 @@ from config import (
     PERSIST_DIR, EMBEDDING_MODEL,
     RETRIEVER_K, RETRIEVER_FETCH_K, RETRIEVER_LAMBDA,
     OLLAMA_API_KEY, OLLAMA_HOST, OLLAMA_MODEL,
+    PMC_MINDATE, PMC_MAXDATE,
 )
 
 logging.basicConfig(level=logging.WARNING)
@@ -96,7 +97,7 @@ def build_chain():
 def main() -> None:
     print(f"\n{'=' * 60}")
     print(f"  Sickle Cell RAG  |  modelo: {OLLAMA_MODEL}")
-    print(f"  fuentes: PMC (2016-2026) + NHLBI")
+    print(f"  fuente: PMC ({PMC_MINDATE}-{PMC_MAXDATE})")
     print(f"  comandos: 'salir' para terminar")
     print(f"{'=' * 60}\n")
 
