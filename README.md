@@ -90,7 +90,7 @@ python -m scrapers.pmc_scraper
 
 ```
 sickle_cell_chat/
-├── .env                    # secretos (no commitear)
+├── .env                    
 ├── .env.example
 ├── .gitignore
 ├── config.py               # settings centralizados
@@ -141,11 +141,3 @@ python -m rag.build_index
 **`No se obtuvieron documentos`** → revisa conectividad y que el `NCBI_EMAIL` sea válido. NCBI bloquea agentes sin email.
 
 **Respuestas pobres / "no tengo información"** → el retrieval no encuentra. Sube `RETRIEVER_K` a 8-10, o cambia el modelo de embeddings al biomédico.
-
-**El LLM responde en inglés** → es normal con `gpt-oss` para textos en inglés (las fuentes lo están). Agrega al `SYSTEM` en `chatbot.py`: "Responde siempre en español aunque el contexto esté en inglés."
-
----
-
-## Siguiente paso
-
-Cuando el backend funcione, agregamos un frontend (Gradio o Streamlit) y opcionalmente lo deployamos a HF Spaces.
