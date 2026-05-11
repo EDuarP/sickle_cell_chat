@@ -19,8 +19,15 @@ OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "https://ollama.com").strip()
 OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "gpt-oss:120b").strip()
 
 # --- RAG / indexación ---
-QUERY = "sickle cell anemia"
-PMC_RETMAX = 30           # cuántos artículos de PMC traer
+# Dos búsquedas: una general sobre la enfermedad, otra enfocada en tratamientos.
+# Los PMCIDs se unen (deduplicados) antes de descargar.
+QUERIES = [
+    "sickle cell anemia",
+    'sickle cell anemia AND (treatment OR therapy OR management OR hydroxyurea OR '
+    'transfusion OR "gene therapy" OR voxelotor OR crizanlizumab OR '
+    '"bone marrow transplant" OR "stem cell transplant")',
+]
+PMC_RETMAX = 30           # cuántos artículos por query
 PMC_MINDATE = "2016"
 PMC_MAXDATE = "2026"
 

@@ -14,7 +14,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 
 from config import (
-    QUERY, PMC_RETMAX, PMC_MINDATE, PMC_MAXDATE,
+    QUERIES, PMC_RETMAX, PMC_MINDATE, PMC_MAXDATE,
     CHUNK_SIZE, CHUNK_OVERLAP, EMBEDDING_MODEL, PERSIST_DIR,
 )
 from scrapers.pmc_scraper import search_pmc, fetch_pmc_articles
@@ -31,7 +31,14 @@ def build_documents() -> list[Document]:
     docs: list[Document] = []
 
     # --- PMC (E-utilities) ---
-    pmcids = search_pmc(QUERY, retmax=PMC_RETMAX, mindate=PMC_MINDATE, maxdate=PMC_MAXDATE)
+    seen: set[str] = set()
+    pmcids: list[str] = []
+    for q in QUERIES:
+        for pid in search_pmc(q, retmax=PMC_RETMAX, mindate=PMC_MINDATE, maxdate=PMC_MAXDATE):
+            if pid not in seen:
+                seen.add(pid)
+                pmcids.append(pid)
+    log.info(f"PMC: {len(pmcids)} PMCIDs únicos tras unir {len(QUERIES)} queries")
     articles = fetch_pmc_articles(pmcids)
 
     n_pmc = 0

@@ -49,13 +49,13 @@ python -m rag.build_index
 ```
 
 Pasa por:
-1. `esearch` en PMC → trae ~30 PMCIDs sobre `sickle cell anemia` (2016-2026).
+1. `esearch` en PMC → corre las queries de `QUERIES` (enfermedad + tratamientos) y une los PMCIDs deduplicados (2016-2026).
 2. `efetch` cada uno → parsea JATS XML (título + abstract + body).
 3. Splitter recursivo → chunks de 1000 chars con overlap 150.
 4. Embeddings con MiniLM (descarga el modelo la primera vez, ~90 MB).
 5. Persiste Chroma en `./chroma_sickle_cell/`.
 
-Tarda ~2-3 min según red.
+Tarda ~3-5 min según red.
 
 ### Paso 2 — Chat
 
@@ -113,7 +113,8 @@ sickle_cell_chat/
 Todo está en `config.py`:
 
 - **Cambiar modelo LLM** → `OLLAMA_MODEL` en `.env`. Opciones: `gpt-oss:120b`, `gpt-oss:20b`, `deepseek-v3.1:671`, `qwen3-coder:480b`.
-- **Más artículos de PMC** → sube `PMC_RETMAX` en `config.py`.
+- **Más artículos de PMC** → sube `PMC_RETMAX` en `config.py` (aplica a cada query).
+- **Cambiar/agregar temas a buscar** → edita la lista `QUERIES` en `config.py`. Cada entrada es una búsqueda PMC independiente; los resultados se unen y deduplican.
 - **Embeddings biomédicos** (mejor recall) → cambia `EMBEDDING_MODEL` a `"pritamdeka/S-PubMedBert-MS-MARCO"`. Tienes que **reconstruir el índice**.
 - **Chunks más grandes** → ajusta `CHUNK_SIZE` y reconstruye índice.
 - **Más contexto al LLM** → sube `RETRIEVER_K` (cuidado con la ventana del modelo).
